@@ -1,0 +1,74 @@
+[init : remove] Removing all files from /workspace/source ...
+
+[clone : clone] + ['[' 'false' '=' 'true' ']'
+[clone : clone] + '[' 'false' '=' 'true' ']'
+[clone : clone] + '[' 'false' '=' 'true' ']'
+[clone : clone] + CHECKOUT_DIR=/workspace/output/
+[clone : clone] + '[' '!' -d /workspace/output/ ']'
+[clone : clone] + cd /workspace/output/
+[clone : clone] + git init
+[clone : clone] Initialized empty Git repository in /workspace/output/.git/
+[clone : clone] + git remote add origin https://github.com/anikett35/capstone.git
+[clone : clone] + git fetch --depth=1 origin main
+[clone : clone] From https://github.com/anikett35/capstone
+[clone : clone]  * branch            main       -> FETCH_HEAD
+[clone : clone]  * [new branch]      main       -> origin/main
+[clone : clone] + git checkout main
+[clone : clone] Already on 'main'
+[clone : clone] Successfully cloned https://github.com/anikett35/capstone.git at rev main
+
+[lint : flake8] + flake8 --count --max-complexity=10 --max-line-length=127 --statistics
+[lint : flake8] 0
+
+[tests : nosetests] + nosetests -vv --with-spec --spec-color
+[tests : nosetests] 
+[tests : nosetests] Account Service Tests
+[tests : nosetests] - It should get 200_OK from the Home Page
+[tests : nosetests] - It should be healthy
+[tests : nosetests] - It should Create a new Account
+[tests : nosetests] - It should not Create an Account when sending the wrong data
+[tests : nosetests] - It should not Create an Account when sending the wrong media type
+[tests : nosetests] - It should Read a single Account
+[tests : nosetests] - It should not Read an Account that is not found
+[tests : nosetests] - It should List all accounts
+[tests : nosetests] - It should return an empty list when there are no accounts
+[tests : nosetests] - It should Update an existing Account
+[tests : nosetests] - It should not Update an Account that is not found
+[tests : nosetests] - It should Delete an Account
+[tests : nosetests] - It should not allow an illegal method call
+[tests : nosetests] - It should return security headers
+[tests : nosetests] - It should return a CORS header
+[tests : nosetests] 
+[tests : nosetests] Account Model Unit Tests
+[tests : nosetests] - It should Create an Account and assert that it exists
+[tests : nosetests] - It should Find an Account by ID
+[tests : nosetests] - It should Update an Account
+[tests : nosetests] - It should Delete an Account
+[tests : nosetests] - It should List all Accounts in the database
+[tests : nosetests] - It should Find an Account by Name
+[tests : nosetests] - It should Serialize an Account into a dictionary
+[tests : nosetests] - It should Deserialize an Account from a dictionary
+[tests : nosetests] 
+[tests : nosetests] ----------------------------------------------------------------------
+[tests : nosetests] Ran 32 tests in 2.115s
+[tests : nosetests] 
+[tests : nosetests] OK
+
+[build : buildah] + buildah bud --storage-driver=vfs --format=oci --tls-verify=false -f Dockerfile -t accounts:1.0 .
+[build : buildah] STEP 1/8: FROM python:3.9-slim
+[build : buildah] STEP 2/8: WORKDIR /app
+[build : buildah] STEP 3/8: COPY requirements.txt .
+[build : buildah] STEP 4/8: RUN pip install --no-cache-dir -r requirements.txt
+[build : buildah] STEP 5/8: COPY service/ ./service/
+[build : buildah] STEP 6/8: RUN useradd --uid 1000 theia && chown -R theia /app
+[build : buildah] STEP 7/8: USER theia
+[build : buildah] STEP 8/8: EXPOSE 8080
+[build : buildah] COMMIT accounts:1.0
+[build : buildah] Successfully tagged accounts:1.0
+
+[deploy : apply-manifests] + kubectl apply -f deploy/deployment.yaml
+[deploy : apply-manifests] deployment.apps/accounts configured
+[deploy : apply-manifests] + kubectl apply -f deploy/service.yaml
+[deploy : apply-manifests] service/accounts configured
+[deploy : apply-manifests] + kubectl rollout status deployment/accounts
+[deploy : apply-manifests] deployment "accounts" successfully rolled out

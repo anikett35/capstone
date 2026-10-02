@@ -1,0 +1,42 @@
+nosetests -v --with-spec --spec-color
+
+Account Service Tests
+- It should get 200_OK from the Home Page
+- It should be healthy
+- It should Create a new Account
+- It should not Create an Account when sending the wrong data
+- It should not Create an Account when sending the wrong media type
+- It should Read a single Account
+- It should not Read an Account that is not found
+- It should List all accounts
+- It should return an empty list when there are no accounts
+- It should Update an existing Account
+- It should not Update an Account that is not found
+- It should Delete an Account
+- It should not allow an illegal method call
+- It should return security headers
+- It should return a CORS header
+
+Account Model Unit Tests
+- It should Create an Account and assert that it exists
+- It should Find an Account by ID
+- It should Update an Account
+- It should Delete an Account
+- It should List all Accounts in the database
+- It should Find an Account by Name
+- It should Serialize an Account into a dictionary
+- It should Deserialize an Account from a dictionary
+
+Name                  Stmts   Miss  Cover   Missing
+---------------------------------------------------
+service/__init__.py      26      2    92%   34-35
+service/common/status.py 45      0   100%
+service/config.py        11      0   100%
+service/models.py        63      3    95%   45, 93-94
+service/routes.py        52      1    98%   101
+---------------------------------------------------
+TOTAL                   197      6    97%
+----------------------------------------------------------------------
+Ran 32 tests in 1.942s
+
+OK
